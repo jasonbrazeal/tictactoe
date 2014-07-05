@@ -138,3 +138,4 @@ LOGGING = {
         },
     }
 }
+INSTALLED_APPS += ('tic_tac_toe.apps.game',)
