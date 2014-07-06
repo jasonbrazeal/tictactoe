@@ -38,12 +38,14 @@ class Game(models.Model):
 
     winner = property(_get_winner)
 
-    def is_tie(self):
+    def _is_tie(self):
         '''Returns None
         '''
-        if not self.get_winner():
+        if not self._get_winner():
             return None not in self.board
         # returns None
+
+    is_tie = property(_is_tie)
 
     # def _get_full_name(self):
     #     "Returns the person's full name."
