@@ -6,6 +6,7 @@ class Game(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
 
+    session_id = models.CharField(max_length=32)
     board_str = models.CharField(max_length=54, default=[None]*9) # max length: [None, None, None, None, None, None, None, None, None]
     player1 = models.CharField(max_length=1, default='X') # X, O
     player2 = models.CharField(max_length=1, default='O') # X, O
@@ -18,7 +19,7 @@ class Game(models.Model):
 
     board = property(_get_board)
 
-    def get_winner(self):
+    def _get_winner(self):
         if ((self.board[3] == self.board[4] == self.board[5])
         or (self.board[1] == self.board[4] == self.board[7])
         or (self.board[0] == self.board[4] == self.board[8])
@@ -34,6 +35,8 @@ class Game(models.Model):
             return self.board[8] # bottom right
 
         # returns None
+
+    winner = property(_get_winner)
 
     def is_tie(self):
         '''Returns None
