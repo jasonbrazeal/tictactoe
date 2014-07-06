@@ -9,7 +9,7 @@ class Game(models.Model):
     board_str = models.CharField(max_length=54, default=[None]*9) # max length: [None, None, None, None, None, None, None, None, None]
     player1 = models.CharField(max_length=1, default='X') # X, O
     player2 = models.CharField(max_length=1, default='O') # X, O
-    winner = models.CharField(max_length=4, default=None) # X, O, None
+    winner = models.CharField(max_length=4, null=True, default=None) # X, O, None/NULL
 
     def _get_board(self):
         '''Returns the tic-tac-toe board as a Python list object.
