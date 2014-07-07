@@ -2,8 +2,7 @@ $(document).ready(function() {
 
     $('#board td').click(function(e) {
         var postData = {
-            'position': $(this).attr('id'),
-            'player': 'X'
+            'space': $(this).attr('id'),
         };
         if ($(this).text() !== postData.player) {
             $(this).text(postData.player);
@@ -16,6 +15,9 @@ $(document).ready(function() {
                 beforeSend: function(){
                 },
                 success: function(responseData){
+                    board = $.parseJSON(responseData.board)
+                    $('h1').text(board);
+                    $("#" + String(responseData.space_AI)).text(responseData.player_AI);
                 }, /* success */
                 error: function(jqXHR, textStatus, errorThrown){
                 }, /* error */

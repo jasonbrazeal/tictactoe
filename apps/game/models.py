@@ -8,8 +8,8 @@ class Game(models.Model):
 
     session_id = models.CharField(max_length=32)
     board_str = models.CharField(max_length=54, default=[None]*9) # max length: [None, None, None, None, None, None, None, None, None]
-    player1 = models.CharField(max_length=1, default='X') # X, O
-    player2 = models.CharField(max_length=1, default='O') # X, O
+    player_x = models.CharField(max_length=1, default='X') # X, O
+    player_o = models.CharField(max_length=1, default='O') # X, O
     winner = models.CharField(max_length=4, null=True, default=None) # X, O, None/NULL
 
     def get_board(self):
@@ -22,6 +22,7 @@ class Game(models.Model):
         '''
         if board == None:
             board = self.get_board()
+        print board
         if ((board[3] == board[4] == board[5])
         or (board[1] == board[4] == board[7])
         or (board[0] == board[4] == board[8])
@@ -49,20 +50,21 @@ class Game(models.Model):
         return [i for i, space in enumerate(self.get_board()) if space==None]
 
     def get_winning_moves(self):
-        '''Returns tuple of lists. First list is player1's winning move(s) and second list is player2's winning move(s).
+        '''Returns dictionary of lists.
         '''
-        player1_moves = list()
-        player2_moves = list()
-        # check player1's winning moves
+        player_x_moves = list()
+        player_o_moves = list()
         for space in self.get_possible_moves():
             board = self.get_board()
-            board[space] = self.player1
-            if self.get_winner(board) == self.player1:
-                player1_moves.append(space)
-            board[space] = self.player2
-            if self.get_winner(board) == self.player2:
-                player2_moves.append(space)
-        return player1_moves, player2_moves
+            board[space] = self.player_x
+            print board
+            if self.get_winner(board) == self.player_x:
+                player_x_moves.append(space)
+            board[space] = self.player_o
+            print board
+            if self.get_winner(board) == self.player_o:
+                player_o_moves.append(space)
+        return {'player_x': player_x_moves, 'player_o': player_o_moves}
 
     def make_move(self, player, space):
         board = self.get_board()
