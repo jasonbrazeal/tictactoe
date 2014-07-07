@@ -22,19 +22,22 @@ class Game(models.Model):
         '''
         if board == None:
             board = self.get_board()
-        print board
-        if ((board[3] == board[4] == board[5])
-        or (board[1] == board[4] == board[7])
-        or (board[0] == board[4] == board[8])
-        or (board[2] == board[4] == board[6])):
+
+        if (((board[3] == board[4] == board[5])
+          or (board[1] == board[4] == board[7])
+          or (board[0] == board[4] == board[8])
+          or (board[2] == board[4] == board[6]))
+          and board[4] is not None):
             return board[4] # center
 
-        elif ((board[0] == board[1] == board[2])
-        or (board[0] == board[3] == board[6])):
+        elif (((board[0] == board[1] == board[2])
+            or (board[0] == board[3] == board[6]))
+            and board[0] is not None):
             return board[0] # top left
 
-        elif ((board[6] == board[7] == board[8])
-        or (board[2] == board[5] == board[8])):
+        elif (((board[6] == board[7] == board[8])
+            or (board[2] == board[5] == board[8]))
+            and board[8] is not None):
             return board[8] # bottom right
 
     def is_tie(self):
