@@ -12,12 +12,6 @@ class Game(models.Model):
     player2 = models.CharField(max_length=1, default='O') # X, O
     winner = models.CharField(max_length=4, null=True, default=None) # X, O, None/NULL
 
-    # def save(self, *args, **kwargs):
-    #     ''' Converts board list to string before saving model.
-    #     '''
-    #     self.board_str = str(self.get_board())
-    #     super(Game, self).save(*args, **kwargs)
-
     def get_board(self):
         '''Returns the tic-tac-toe board as a Python list object.
         '''
