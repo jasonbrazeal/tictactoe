@@ -1,7 +1,7 @@
 from django.db import models
 
 class Game(models.Model):
-    '''Tic-tac-toe game
+    '''Tic-tac-toe game. Inspired by http://inventwithpython.com/chapter10.html and https://github.com/sontek-archive/django-tictactoe/blob/master/small_tictactoe/apps/core/models.py
     '''
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
@@ -12,46 +12,69 @@ class Game(models.Model):
     player2 = models.CharField(max_length=1, default='O') # X, O
     winner = models.CharField(max_length=4, null=True, default=None) # X, O, None/NULL
 
-    def _get_board(self):
+    # def save(self, *args, **kwargs):
+    #     ''' Converts board list to string before saving model.
+    #     '''
+    #     self.board_str = str(self.get_board())
+    #     super(Game, self).save(*args, **kwargs)
+
+    def get_board(self):
         '''Returns the tic-tac-toe board as a Python list object.
         '''
         return eval(self.board_str)
 
-    board = property(_get_board)
+    def get_winner(self, board=None):
+        '''Returns winner of game. Returns None if no winner.
+        '''
+        if board == None:
+            board = self.get_board()
+        if ((board[3] == board[4] == board[5])
+        or (board[1] == board[4] == board[7])
+        or (board[0] == board[4] == board[8])
+        or (board[2] == board[4] == board[6])):
+            return board[4] # center
 
-    def _get_winner(self):
-        if ((self.board[3] == self.board[4] == self.board[5])
-        or (self.board[1] == self.board[4] == self.board[7])
-        or (self.board[0] == self.board[4] == self.board[8])
-        or (self.board[2] == self.board[4] == self.board[6])):
-            return self.board[4] # center
+        elif ((board[0] == board[1] == board[2])
+        or (board[0] == board[3] == board[6])):
+            return board[0] # top left
 
-        elif ((self.board[0] == self.board[1] == self.board[2])
-        or (self.board[0] == self.board[3] == self.board[6])):
-            return self.board[0] # top left
+        elif ((board[6] == board[7] == board[8])
+        or (board[2] == board[5] == board[8])):
+            return board[8] # bottom right
 
-        elif ((self.board[6] == self.board[7] == self.board[8])
-        or (self.board[2] == self.board[5] == self.board[8])):
-            return self.board[8] # bottom right
-
-        # returns None
-
-    winner = property(_get_winner)
-
-    def _is_tie(self):
+    def is_tie(self):
         '''Returns None
         '''
-        if not self._get_winner():
-            return None not in self.board
+        if not self.get_winner():
+            return None not in self.get_board()
         # returns None
 
-    is_tie = property(_is_tie)
+    def get_possible_moves(self):
+        '''
+        '''
+        return [i for i, space in enumerate(self.get_board()) if space==None]
 
-    # def _get_full_name(self):
-    #     "Returns the person's full name."
-    #     return u'%s %s' % (self.first_name, self.last_name)
-    # full_name = property(_get_full_name)
+    def get_winning_moves(self):
+        '''Returns tuple of lists. First list is player1's winning move(s) and second list is player2's winning move(s).
+        '''
+        player1_moves = list()
+        player2_moves = list()
+        # check player1's winning moves
+        for space in self.get_possible_moves():
+            board = self.get_board()
+            board[space] = self.player1
+            if self.get_winner(board) == self.player1:
+                player1_moves.append(space)
+            board[space] = self.player2
+            if self.get_winner(board) == self.player2:
+                player2_moves.append(space)
+        return player1_moves, player2_moves
 
+    def make_move(self, player, space):
+        board = self.get_board()
+        board[space] = player
+        self.board_str = str(board)
+        self.save()
 
     def __unicode__(self):
         return self.board_str
