@@ -59,19 +59,29 @@ def play(request):
 
     # decide AI's move
     winning_moves = g.get_winning_moves()
+    fork_moves = g.get_fork_moves()
     possible_moves = g.get_possible_moves()
     possible_corner_moves = list(set([0,2,6,8]) & set(possible_moves))
+    possible_side_moves = list(set([1,3,5,7]) & set(possible_moves))
 
-    if winning_moves['player_o']: # win if possible
-        space_AI = winning_moves['player_o'][0] # there should only be one item in the list unless someone has missed an opportunity
-    elif winning_moves['player_x']: # block human win
-        space_AI = winning_moves['player_x'][0]
-    elif 5 in possible_moves: # play center
-        space_AI = 5
+    if winning_moves['O']: # win if possible
+        space_AI = winning_moves['O'][0] # there should only be one item in the list unless someone has missed an opportunity
+    elif winning_moves['X']: # block human win
+        space_AI = winning_moves['X'][0]
+    elif fork_moves['O']: # make a move that would result in a fork (guaranteed win on next turn)
+        space_AI = fork_moves['O'][0]
+    elif len(fork_moves['X']) == 1: # block the opponent's fork
+        space_AI = fork_moves['X'][0]
+    elif len(fork_moves['X']) > 1: # 2 possible forks; force opponent block AI win on next turn
+        space_AI = possible_side_moves[randint(0,len(possible_corner_moves)-1)]
+    elif 4 in possible_moves: # play center
+        space_AI = 4
     elif possible_corner_moves: # play corner
         space_AI = possible_corner_moves[randint(0,len(possible_corner_moves)-1)]
-    else: # play side
-        space_AI = possible_moves[randint(0,len(possible_moves)-1)]
+    elif possible_side_moves: # play side
+        space_AI = possible_side_moves[randint(0,len(possible_corner_moves)-1)]
+    else: # error
+        return HttpResponse(json.dumps({'error': 'hit impossible condition'}), content_type="application/json")
 
     g.make_move(player_AI, space_AI)
 

@@ -47,27 +47,49 @@ class Game(models.Model):
             return None not in self.get_board()
         # returns None
 
-    def get_possible_moves(self):
+    def get_possible_moves(self, board=None):
         '''
         '''
-        return [i for i, space in enumerate(self.get_board()) if space==None]
+        if board == None:
+            board = self.get_board()
+        return [i for i, space in enumerate(board) if space==None]
 
-    def get_winning_moves(self):
+    def get_winning_moves(self, board=None):
+        '''Returns dictionary of lists.
+        '''
+        if board == None:
+            board = self.get_board()
+        player_x_moves = list()
+        player_o_moves = list()
+        for space in self.get_possible_moves(board=board):
+            board_copy = board[:]
+            board_copy[space] = self.player_x
+            if self.get_winner(board=board_copy) == self.player_x:
+                player_x_moves.append(space)
+            board_copy[space] = self.player_o
+            if self.get_winner(board=board_copy) == self.player_o:
+                player_o_moves.append(space)
+        return {'X': player_x_moves, 'O': player_o_moves}
+
+    def get_fork_moves(self):
         '''Returns dictionary of lists.
         '''
         player_x_moves = list()
         player_o_moves = list()
         for space in self.get_possible_moves():
+            print space
             board = self.get_board()
             board[space] = self.player_x
             print board
-            if self.get_winner(board) == self.player_x:
+            winning_dict = self.get_winning_moves(board=board)
+            print winning_dict
+            if len(winning_dict[self.player_x]) > 1:
                 player_x_moves.append(space)
             board[space] = self.player_o
-            print board
-            if self.get_winner(board) == self.player_o:
+            winning_dict = self.get_winning_moves(board=board)
+            if len(winning_dict[self.player_o]) > 1:
                 player_o_moves.append(space)
-        return {'player_x': player_x_moves, 'player_o': player_o_moves}
+        return {'X': player_x_moves, 'O': player_o_moves}
 
     def make_move(self, player, space):
         board = self.get_board()
