@@ -69,7 +69,8 @@ class Game(models.Model):
             board_copy[space] = self.player_AI
             if self.get_winner(board=board_copy) == self.player_AI:
                 player_AI_moves.append(space)
-        return {self.player_human: player_human_moves, self.player_AI: player_AI_moves}
+        return {self.player_human: player_human_moves,
+                self.player_AI: player_AI_moves}
 
     def get_fork_moves(self):
         '''Returns dictionary of lists.
@@ -77,19 +78,16 @@ class Game(models.Model):
         player_human_moves = list()
         player_AI_moves = list()
         for space in self.get_possible_moves():
-            print space
             board = self.get_board()
             board[space] = self.player_human
-            print board
             winning_dict = self.get_winning_moves(board=board)
-            print winning_dict
             if len(winning_dict[self.player_human]) > 1:
                 player_human_moves.append(space)
             board[space] = self.player_AI
             winning_dict = self.get_winning_moves(board=board)
             if len(winning_dict[self.player_AI]) > 1:
                 player_AI_moves.append(space)
-        return {'X': player_human_moves, 'O': player_AI_moves}
+        return {self.player_human: player_human_moves, self.player_AI: player_AI_moves}
 
     def make_move(self, player, space):
         board = self.get_board()

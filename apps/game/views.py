@@ -8,14 +8,14 @@ import json
 from game.models import Game
 
 def home(request):
-    # if request.session.get('has_game', False):
-    #     g = Game.objects.filter(session_id=request.session._session_key).order_by('-date_created')[0]
-    #     board = g.get_board()
-    # else:
-    #     board = []
+    if request.session.get('has_game', False):
+        g = Game.objects.filter(session_id=request.session._session_key).order_by('-date_created')[0]
+        board = g.get_board()
+    else:
+        board = []
     # put Xs and Os in context if session exists
     return render_to_response('game/home.html',
-                              {},
+                              {'board': board},
                               context_instance=RequestContext(request))
 
 def setup(request):
@@ -80,14 +80,14 @@ def play(request):
         space_AI = fork_moves[player_AI][0]
     elif len(fork_moves[player_human]) == 1: # block the opponent's fork
         space_AI = fork_moves[player_human][0]
-    elif len(fork_moves[player_human]) > 1: # 2 possible forks; force opponent block AI win on next turn
-        space_AI = possible_side_moves[randint(0,len(possible_corner_moves)-1)]
+    elif len(fork_moves[player_human]) > 1: # 2 possible forks; force opponent to block AI win on next turn
+        space_AI = possible_side_moves[randint(0,len(possible_side_moves)-1)]
     elif 4 in possible_moves: # play center
         space_AI = 4
     elif possible_corner_moves: # play corner
         space_AI = possible_corner_moves[randint(0,len(possible_corner_moves)-1)]
     elif possible_side_moves: # play side
-        space_AI = possible_side_moves[randint(0,len(possible_corner_moves)-1)]
+        space_AI = possible_side_moves[randint(0,len(possible_side_moves)-1)]
     else: # error
         return HttpResponse(json.dumps({'error': "hit impossible condition...apparently it wasn't impossible after all!"}), content_type="application/json")
 
