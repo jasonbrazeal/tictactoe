@@ -93,6 +93,7 @@ textarea {
 
 #board {
     margin: auto;
+    display: none;
 }
 
 #board td {
@@ -101,6 +102,10 @@ textarea {
 }
 
 #dialog-confirm {
+    display: none;
+}
+
+#dialog-setup {
     display: none;
 }
 
@@ -113,6 +118,22 @@ textarea {
 .ui-dialog-buttonpane {
     float: right;
     border-width: 0 !important;
+}
+
+#space0, #space1, #space2 {
+   border-top-width: 0;
+}
+
+#space6, #space7, #space8 {
+   border-bottom-width: 0;
+}
+
+#space0, #space3, #space6 {
+   border-left-width: 0;
+}
+
+#space2, #space5, #space8 {
+   border-right-width: 0;
 }
 
 /* ==========================================================================

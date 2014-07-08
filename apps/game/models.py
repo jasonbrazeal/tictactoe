@@ -8,8 +8,8 @@ class Game(models.Model):
 
     session_id = models.CharField(max_length=32)
     board_str = models.CharField(max_length=54, default=[None]*9) # max length: [None, None, None, None, None, None, None, None, None]
-    player_x = models.CharField(max_length=1, default='X') # X, O
-    player_o = models.CharField(max_length=1, default='O') # X, O
+    player_human = models.CharField(max_length=1, default='X') # X, O
+    player_AI = models.CharField(max_length=1, default='O') # X, O
     winner = models.CharField(max_length=4, null=True, default=None) # X, O, None/NULL
 
     def get_board(self):
@@ -59,37 +59,37 @@ class Game(models.Model):
         '''
         if board == None:
             board = self.get_board()
-        player_x_moves = list()
-        player_o_moves = list()
+        player_human_moves = list()
+        player_AI_moves = list()
         for space in self.get_possible_moves(board=board):
             board_copy = board[:]
-            board_copy[space] = self.player_x
-            if self.get_winner(board=board_copy) == self.player_x:
-                player_x_moves.append(space)
-            board_copy[space] = self.player_o
-            if self.get_winner(board=board_copy) == self.player_o:
-                player_o_moves.append(space)
-        return {'X': player_x_moves, 'O': player_o_moves}
+            board_copy[space] = self.player_human
+            if self.get_winner(board=board_copy) == self.player_human:
+                player_human_moves.append(space)
+            board_copy[space] = self.player_AI
+            if self.get_winner(board=board_copy) == self.player_AI:
+                player_AI_moves.append(space)
+        return {self.player_human: player_human_moves, self.player_AI: player_AI_moves}
 
     def get_fork_moves(self):
         '''Returns dictionary of lists.
         '''
-        player_x_moves = list()
-        player_o_moves = list()
+        player_human_moves = list()
+        player_AI_moves = list()
         for space in self.get_possible_moves():
             print space
             board = self.get_board()
-            board[space] = self.player_x
+            board[space] = self.player_human
             print board
             winning_dict = self.get_winning_moves(board=board)
             print winning_dict
-            if len(winning_dict[self.player_x]) > 1:
-                player_x_moves.append(space)
-            board[space] = self.player_o
+            if len(winning_dict[self.player_human]) > 1:
+                player_human_moves.append(space)
+            board[space] = self.player_AI
             winning_dict = self.get_winning_moves(board=board)
-            if len(winning_dict[self.player_o]) > 1:
-                player_o_moves.append(space)
-        return {'X': player_x_moves, 'O': player_o_moves}
+            if len(winning_dict[self.player_AI]) > 1:
+                player_AI_moves.append(space)
+        return {'X': player_human_moves, 'O': player_AI_moves}
 
     def make_move(self, player, space):
         board = self.get_board()

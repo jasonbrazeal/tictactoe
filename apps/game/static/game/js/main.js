@@ -1,5 +1,53 @@
 $(document).ready(function() {
 
+    function setupGame(postData) {
+        $.ajax({
+            url: '/setup',
+            type: 'POST',
+            data: postData,
+            dataType: 'html',
+            beforeSend: function(){
+            },
+            success: function(responseData){
+                $('#board').fadeIn('slow');
+            }, /* success */
+            error: function(jqXHR, textStatus, errorThrown){
+                $('h1').text(textStatus + ' ' + errorThrown);
+            }, /* error */
+            complete: function(jqXHR, textStatus){
+            } /* complete */
+        }); /* ajax call */
+    }
+
+    $('#setup').click(function(e) {
+        $('#dialog-setup').dialog({
+            resizable: false,
+            modal: true,
+            autoOpen: true,
+            width: '500px',
+            height: '100px',
+            dialogClass: 'dialog' ,
+            position: {
+                my: 'center top',
+                at: 'center top',
+                of: $('html'),
+            },
+            title: 'tic-tac-toe',
+            buttons: {
+              'X': function() {
+                setupGame({'player_human': 'X'});
+                $(this).dialog('close');
+              }, /* 'X' */
+              'O': function() {
+                setupGame({'player_human': 'O'});
+                $(this).dialog('close');
+              } /* 'O' */
+            }, /* buttons */
+            close: function() {
+            } /* close */
+        }); /* dialog */
+    }); /* setup */
+
     $('#board td').click(function(e) {
         var postData = {
             'space_human': $(this).attr('id'),
@@ -18,7 +66,7 @@ $(document).ready(function() {
                 },
                 success: function(responseData){
                     // board = $.parseJSON(responseData.board) # python list
-                    $('#' + String(responseData.space_AI)).text(responseData.player_AI);
+                    $('#space' + String(responseData.space_AI)).text(responseData.player_AI);
                     if (responseData.winner) {
                         $('h1').text(responseData.winner + ' is the winner!!!');
                     } else if (responseData.tie) {

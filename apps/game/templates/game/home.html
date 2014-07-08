@@ -25,29 +25,34 @@
 
         <!-- Add your site or application content here -->
         <h1>tic tac toe</h1>
+        <button id="setup">start game</button>
         <button id="reset">reset</button>
         <table id="board">
             <tbody>
                 <tr>
-                    <td id="0"></td>
-                    <td id="1"></td>
-                    <td id="2"></td>
+                    <td id="space0">{{ board.0 }}</td>
+                    <td id="space1">{{ board.1 }}</td>
+                    <td id="space2">{{ board.2 }}</td>
                 </tr>
                 <tr>
-                    <td id="3"></td>
-                    <td id="4"></td>
-                    <td id="5"></td>
+                    <td id="space3">{{ board.3 }}</td>
+                    <td id="space4">{{ board.4 }}</td>
+                    <td id="space5">{{ board.5 }}</td>
                 </tr>
                 <tr>
-                    <td id="6"></td>
-                    <td id="7"></td>
-                    <td id="8"></td>
+                    <td id="space6">{{ board.6 }}</td>
+                    <td id="space7">{{ board.7 }}</td>
+                    <td id="space8">{{ board.8 }}</td>
                 </tr>
             </tbody>
         </table>
 
         <div id="dialog-confirm">
             Play again?
+        </div>
+
+        <div id="dialog-setup">
+            Wanna be Xs or Os?
         </div>
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>

@@ -15,6 +15,8 @@ sys.path.insert(0, os.path.join(PROJECT_DIR, "apps"))
 
 # Django settings for tic_tac_toe project.
 
+SESSION_SAVE_EVERY_REQUEST = True
+
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 

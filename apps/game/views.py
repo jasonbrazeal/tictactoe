@@ -8,36 +8,47 @@ import json
 from game.models import Game
 
 def home(request):
-    request.session['has_game'] = True
-    request.session['player_human'] = 'X'
-    request.session['player_AI'] = 'O'
-    g = Game(session_id=request.session._session_key)
-    g.save()
-
+    if request.session.get('has_game', False):
+        g = Game.objects.filter(session_id=request.session._session_key).order_by('-date_created')[0]
+    #     board = g.get_board()
+    # else:
+    #     board = []
+    # put Xs and Os in context if session exists
     return render_to_response('game/home.html',
                               {},
                               context_instance=RequestContext(request))
+
+def setup(request):
+    if not request.is_ajax():
+        return HttpResponse('Invalid call. AJAX required.')
+
+    player_human = request.POST.get('player_human', 'X')
+    player_AI = None
+    if player_human == 'X':
+        player_AI == 'O'
+    else:
+        player_AI == 'X'
+        # player_human == 'O'
+
+    # request.session['player_human'] = player_human
+    # request.session['player_AI'] = player_AI
+
+    g = Game(session_id=request.session._session_key)
+    g.save()
+    request.session['has_game'] = True
+    return HttpResponse('Game created.')
+
 
 def play(request):
     if not request.is_ajax():
         return HttpResponse('Invalid call. AJAX required.')
 
-    player_human = request.session['player_human']
-    player_AI = request.session['player_AI']
+    # space_human = int(request.POST.get('space_human', None))
 
-    space_human = int(request.POST.get('space_human', None))
-
-    # get session object
-    # session = Session.objects.get(session_key=request.session._session_key)
-    # check that session exists
-    # if not session:
-    #     return 'Invalid call. Session required.'
-
-    # if request.session['has_game']:
     g = Game.objects.filter(session_id=request.session._session_key).order_by('-date_created')[0]
-    # else:
-    #     g = Game(session_id=request.session._session_key)
-    #     g.save()
+
+    player_human = g.player_human
+    player_AI = g.player_AI
 
     g.make_move(player_human, space_human)
 
@@ -45,12 +56,14 @@ def play(request):
         response = ({'winner': player_human,
                      'tie': True
                     })
+        request.session.flush()
         return HttpResponse(json.dumps(response), content_type="application/json")
 
     if g.is_tie():
         response = ({'winner': 'cat',
                      'tie': True
                     })
+        request.session.flush()
         return HttpResponse(json.dumps(response), content_type="application/json")
 
     # decide AI's move
@@ -88,6 +101,7 @@ def play(request):
                      'player_AI': player_AI,
                      'player_human': player_human
                    })
+        request.session.flush()
         return HttpResponse(json.dumps(response), content_type="application/json")
 
     if g.is_tie():
@@ -97,6 +111,7 @@ def play(request):
                      'player_AI': player_AI,
                      'player_human': player_human
                    })
+        request.session.flush()
         return HttpResponse(json.dumps(response), content_type="application/json")
 
     # update session if needed
