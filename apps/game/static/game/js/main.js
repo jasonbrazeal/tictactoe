@@ -36,6 +36,14 @@ $(document).ready(function() {
                                     resizable: false,
                                     modal: true,
                                     autoOpen: true,
+                                    width: '500px',
+                                    height: '100px',
+                                    dialogClass: 'dialog' ,
+                                    position: {
+                                        my: 'center top',
+                                        at: 'center top',
+                                        of: $('html'),
+                                    },
                                     title: responseData.winner ? responseData.winner + ' is the winner!' : "It's a tie...cat's game!",
                                     buttons: {
                                       'Yes': function() {
