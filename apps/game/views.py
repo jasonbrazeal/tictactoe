@@ -8,8 +8,8 @@ import json
 from game.models import Game
 
 def home(request):
-    if request.session.get('has_game', False):
-        g = Game.objects.filter(session_id=request.session._session_key).order_by('-date_created')[0]
+    # if request.session.get('has_game', False):
+    #     g = Game.objects.filter(session_id=request.session._session_key).order_by('-date_created')[0]
     #     board = g.get_board()
     # else:
     #     board = []
@@ -22,18 +22,17 @@ def setup(request):
     if not request.is_ajax():
         return HttpResponse('Invalid call. AJAX required.')
 
-    player_human = request.POST.get('player_human', 'X')
+    player_human = request.POST['player_human']
     player_AI = None
     if player_human == 'X':
-        player_AI == 'O'
+        player_AI = 'O'
     else:
-        player_AI == 'X'
-        # player_human == 'O'
+        player_AI = 'X'
+        # player_human = 'O'
 
     # request.session['player_human'] = player_human
     # request.session['player_AI'] = player_AI
-
-    g = Game(session_id=request.session._session_key)
+    g = Game(session_id=request.session._session_key, player_human=player_human, player_AI=player_AI)
     g.save()
     request.session['has_game'] = True
     return HttpResponse('Game created.')
@@ -43,7 +42,7 @@ def play(request):
     if not request.is_ajax():
         return HttpResponse('Invalid call. AJAX required.')
 
-    # space_human = int(request.POST.get('space_human', None))
+    space_human = int(request.POST['space_human'])
 
     g = Game.objects.filter(session_id=request.session._session_key).order_by('-date_created')[0]
 
@@ -60,7 +59,7 @@ def play(request):
         return HttpResponse(json.dumps(response), content_type="application/json")
 
     if g.is_tie():
-        response = ({'winner': 'cat',
+        response = ({'winner': 'the cat',
                      'tie': True
                     })
         request.session.flush()
@@ -73,15 +72,15 @@ def play(request):
     possible_corner_moves = list(set([0,2,6,8]) & set(possible_moves))
     possible_side_moves = list(set([1,3,5,7]) & set(possible_moves))
 
-    if winning_moves['O']: # win if possible
-        space_AI = winning_moves['O'][0] # there should only be one item in the list unless someone has missed an opportunity
-    elif winning_moves['X']: # block human win
-        space_AI = winning_moves['X'][0]
-    elif fork_moves['O']: # make a move that would result in a fork (guaranteed win on next turn)
-        space_AI = fork_moves['O'][0]
-    elif len(fork_moves['X']) == 1: # block the opponent's fork
-        space_AI = fork_moves['X'][0]
-    elif len(fork_moves['X']) > 1: # 2 possible forks; force opponent block AI win on next turn
+    if winning_moves[player_AI]: # win if possible
+        space_AI = winning_moves[player_AI][0] # there should only be one item in the list unless someone has missed an opportunity
+    elif winning_moves[player_human]: # block human win
+        space_AI = winning_moves[player_human][0]
+    elif fork_moves[player_AI]: # make a move that would result in a fork (guaranteed win on next turn)
+        space_AI = fork_moves[player_AI][0]
+    elif len(fork_moves[player_human]) == 1: # block the opponent's fork
+        space_AI = fork_moves[player_human][0]
+    elif len(fork_moves[player_human]) > 1: # 2 possible forks; force opponent block AI win on next turn
         space_AI = possible_side_moves[randint(0,len(possible_corner_moves)-1)]
     elif 4 in possible_moves: # play center
         space_AI = 4
@@ -106,7 +105,7 @@ def play(request):
 
     if g.is_tie():
         response = ({'space_AI': str(space_AI),
-                     'winner': 'cat',
+                     'winner': 'the cat',
                      'tie': True,
                      'player_AI': player_AI,
                      'player_human': player_human

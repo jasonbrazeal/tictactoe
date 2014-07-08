@@ -34,13 +34,15 @@ $(document).ready(function() {
             },
             title: 'tic-tac-toe',
             buttons: {
-              'X': function() {
+              "I'll be Xs": function() {
                 setupGame({'player_human': 'X'});
                 $(this).dialog('close');
+                $('#player_human').text('X')
               }, /* 'X' */
-              'O': function() {
+              "Gimme Os": function() {
                 setupGame({'player_human': 'O'});
                 $(this).dialog('close');
+                $('#player_human').text('O')
               } /* 'O' */
             }, /* buttons */
             close: function() {
@@ -50,12 +52,11 @@ $(document).ready(function() {
 
     $('#board td').click(function(e) {
         var postData = {
-            'space_human': $(this).attr('id'),
-            'player_human': 'X',
+            'space_human': $(this).attr('id').substr(-1),
         };
         if (!$(this).text()) {
-            $(this).text(postData.player_human);
-
+            $(this).text($('#player_human').text());
+            $(this).removeClass('shaded');
             $.ajax({
                 url: '/play',
                 type: 'POST',
@@ -75,11 +76,16 @@ $(document).ready(function() {
                 }, /* success */
                 error: function(jqXHR, textStatus, errorThrown){
                         $('h1').text('error...please try your move again. (error info: ' + errorThrown + ' - ' + textStatus);
+                        // $(this).text(''); // remove player's move on error
                 }, /* error */
                 complete: function(jqXHR, textStatus){
                         responseData = $.parseJSON(jqXHR.responseText);
                         if (responseData.winner || responseData.tie) {
                             $(function() {
+                                $('#winner').text(responseData.winner);
+                                if (!responseData.tie) {
+                                    $('#winner').append('s');
+                                }
                                 $('#dialog-confirm').dialog({
                                     resizable: false,
                                     modal: true,
@@ -92,7 +98,7 @@ $(document).ready(function() {
                                         at: 'center top',
                                         of: $('html'),
                                     },
-                                    title: responseData.winner ? responseData.winner + ' is the winner!' : "It's a tie...cat's game!",
+                                    title: 'tic-tac-toe',
                                     buttons: {
                                       'Yes': function() {
                                         $(this).dialog('close');
@@ -112,8 +118,18 @@ $(document).ready(function() {
         }
     }); /* make a play */
 
-    $('#reset').click(function(e) {
+    $('#reset').click(function() {
         window.location.reload();
     }); /* reset/refresh */
 
+    $('#board td').hover(
+        function() {
+            if (!$(this).text()) {
+                $(this).addClass('shaded');
+            }
+        },
+        function() {
+            $(this).removeClass('shaded');
+        }
+    ); /* hover */
 }); /* document.ready */

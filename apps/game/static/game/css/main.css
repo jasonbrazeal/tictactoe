@@ -121,19 +121,27 @@ textarea {
 }
 
 #space0, #space1, #space2 {
-   border-top-width: 0;
+   border-top-width: 0 !important;
 }
 
 #space6, #space7, #space8 {
-   border-bottom-width: 0;
+   border-bottom-width: 0 !important;
 }
 
 #space0, #space3, #space6 {
-   border-left-width: 0;
+   border-left-width: 0 !important;
 }
 
 #space2, #space5, #space8 {
-   border-right-width: 0;
+   border-right-width: 0 !important;
+}
+
+.shaded {
+    background-color: #f6f6f6;
+}
+
+#player_human {
+    display: none;
 }
 
 /* ==========================================================================
