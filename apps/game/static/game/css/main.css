@@ -96,8 +96,12 @@ textarea {
 }
 
 #board td {
-    padding: 50px;
+    padding: 75px;
     border: 1px solid #000;
+}
+
+#dialog-confirm {
+    display: none;
 }
 
 /* ==========================================================================

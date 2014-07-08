@@ -12,6 +12,9 @@
         {% load staticfiles %}
         <link rel="stylesheet" href="{% static "game/css/main.css" %}">
         <link rel="stylesheet" href="{% static "game/css/normalize.css" %}">
+        <link rel="stylesheet" href="{% static "game/css/jquery-ui.min.css" %}">
+        <link rel="stylesheet" href="{% static "game/css/jquery-ui.structure.min.css" %}">
+        <link rel="stylesheet" href="{% static "game/css/jquery-ui.theme.min.css" %}">
 
         <script src="{% static "game/js/vendor/modernizr-2.8.0.min.js" %}"></script>
     </head>
@@ -23,6 +26,7 @@
         <!-- Add your site or application content here -->
         <h1>tic tac toe</h1>
         <h2>human=X, AI=O, human goes first</h2>
+        <button id="reset">reset</button>
         <table id="board">
             <tbody>
                 <tr>
@@ -43,10 +47,15 @@
             </tbody>
         </table>
 
+        <div id="dialog-confirm">
+            <p>Play again?</p>
+        </div>
+
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="{% static "game/js/vendor/jquery-1.11.1.min.js" %}"><\/script>')</script>
         <script src="{% static "game/js/plugins.js" %}"></script>
         <script src="{% static "game/js/main.js" %}"></script>
+        <script src="{% static "game/js/vendor/jquery-ui.min.js" %}"></script>
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>

@@ -9,6 +9,8 @@ from game.models import Game
 
 def home(request):
     request.session['has_game'] = True
+    request.session['player_human'] = 'X'
+    request.session['player_AI'] = 'O'
     g = Game(session_id=request.session._session_key)
     g.save()
 
@@ -20,10 +22,10 @@ def play(request):
     if not request.is_ajax():
         return HttpResponse('Invalid call. AJAX required.')
 
-    player_human = 'X'
-    player_AI = 'O'
+    player_human = request.session['player_human']
+    player_AI = request.session['player_AI']
 
-    space_human = int(request.POST.get('space', None))
+    space_human = int(request.POST.get('space_human', None))
 
     # get session object
     # session = Session.objects.get(session_key=request.session._session_key)
@@ -39,23 +41,17 @@ def play(request):
 
     g.make_move(player_human, space_human)
 
-    # winner = g.get_winner()
-    # if winner:
-    #     response = ({'win': winner,
-    #                  'tie': '',
-    #                  'winning_move': '',
-    #                  'next_player': ''
-    #                 })
-    #     return HttpResponse(json.dumps(response), content_type="application/json")
+    if g.get_winner():
+        response = ({'winner': player_human,
+                     'tie': True
+                    })
+        return HttpResponse(json.dumps(response), content_type="application/json")
 
-
-    # if g.is_tie():
-    #     response = ({'win': '',
-    #                  'tie': 'tie',
-    #                  'winning_move': '',
-    #                  'next_player': ''
-    #                 })
-    #     return HttpResponse(json.dumps(response), content_type="application/json")
+    if g.is_tie():
+        response = ({'winner': 'cat',
+                     'tie': True
+                    })
+        return HttpResponse(json.dumps(response), content_type="application/json")
 
     # decide AI's move
     winning_moves = g.get_winning_moves()
@@ -81,35 +77,35 @@ def play(request):
     elif possible_side_moves: # play side
         space_AI = possible_side_moves[randint(0,len(possible_corner_moves)-1)]
     else: # error
-        return HttpResponse(json.dumps({'error': 'hit impossible condition'}), content_type="application/json")
+        return HttpResponse(json.dumps({'error': "hit impossible condition...apparently it wasn't impossible after all!"}), content_type="application/json")
 
     g.make_move(player_AI, space_AI)
 
-    # winner = g.get_winner()
-    # if winner:
-    #     response = ({'win': winner,
-    #                  'tie': '',
-    #                  'winning_move': '',
-    #                  'next_player': ''
-    #                 })
-    #     return HttpResponse(json.dumps(response), content_type="application/json")
+    if g.get_winner():
+        response = ({'space_AI': str(space_AI),
+                     'winner': player_AI,
+                     'tie': False,
+                     'player_AI': player_AI,
+                     'player_human': player_human
+                   })
+        return HttpResponse(json.dumps(response), content_type="application/json")
 
-    # if g.is_tie():
-    #     response = ({'win': '',
-    #                  'tie': 'tie',
-    #                  'winning_move': '',
-    #                  'next_player': ''
-    #                 })
-    #     return HttpResponse(json.dumps(response), content_type="application/json")
+    if g.is_tie():
+        response = ({'space_AI': str(space_AI),
+                     'winner': 'cat',
+                     'tie': True,
+                     'player_AI': player_AI,
+                     'player_human': player_human
+                   })
+        return HttpResponse(json.dumps(response), content_type="application/json")
 
     # update session if needed
-    board_json = json.dumps(g.get_board())
-    response = ({'win': '',
-                 'tie': 'tie',
-                 'winning_move': '',
-                 'next_player': '',
-                 'board': board_json,
-                 'space_AI': str(space_AI),
-                 'player_AI': player_AI
+    # board_json = json.dumps(g.get_board())
+    response = ({'space_AI': str(space_AI),
+                 'player_AI': player_AI,
+                 'player_human': player_human
                 })
     return HttpResponse(json.dumps(response), content_type="application/json")
+
+def thanks(request):
+    return HttpResponse('Thanks for playing!')
