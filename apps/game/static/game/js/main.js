@@ -205,6 +205,4 @@ $(document).ready(function() {
         }); /* ajax call */
     }
 
-// ensures start button not displayed until document is ready
-    $('#start').show();
 }); /* document.ready */
