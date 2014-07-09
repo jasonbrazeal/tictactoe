@@ -101,6 +101,16 @@ textarea {
     border: 1px solid #000;
 }
 
+#cat {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 370px;
+    width: 300px;
+    z-index: 999;
+}
+
 #dialog-continue,
 #dialog-setup,
 #dialog-confirm,

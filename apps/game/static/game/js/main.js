@@ -85,8 +85,10 @@ $(document).ready(function() {
                         if (responseData.winner || responseData.tie) {
                             $(function() {
                                 $('#winner').text(responseData.winner);
-                                if (!responseData.tie) {
-                                    $('#winner').append('s');
+                                if (responseData.tie) {
+                                    $('#cat').show(); // show grumpy cat
+                                } else {
+                                    $('#winner').append('s'); // make X or O plural
                                 }
                                 $('#dialog-confirm').dialog({
                                     resizable: false,
