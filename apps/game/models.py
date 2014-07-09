@@ -1,10 +1,7 @@
 from django.db import models
 
 class Game(models.Model):
-    '''Tic-tac-toe game. Inspired by:
-        http://inventwithpython.com/chapter10.html
-        https://github.com/sontek-archive/django-tictactoe/blob/master/small_tictactoe/apps/core/models.py
-        http://tictactoe.geekshack.net/
+    '''Models a tic-tac-toe game with a human and AI player. Keeps track of Django's session id so a game in progress can be restarted.
     '''
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
@@ -44,21 +41,20 @@ class Game(models.Model):
             return board[8] # bottom right
 
     def is_tie(self):
-        '''Returns None
+        '''Returns True if the game has ended in a tie.
         '''
         if not self.get_winner():
             return None not in self.get_board()
-        # returns None
 
     def get_possible_moves(self, board=None):
-        '''
+        '''Returns a list of all open spaces on the board.
         '''
         if board == None:
             board = self.get_board()
         return [i for i, space in enumerate(board) if space==None]
 
     def get_winning_moves(self, board=None):
-        '''Returns dictionary of lists.
+        '''Returns a dictionary of lists with players as keys and lists of winning moves as values.
         '''
         if board == None:
             board = self.get_board()
@@ -76,7 +72,7 @@ class Game(models.Model):
                 self.player_AI: player_AI_moves}
 
     def get_fork_moves(self):
-        '''Returns dictionary of lists.
+        '''Returns a dictionary of lists with players as keys and lists of fork moves as values. Fork moves are those which can force a win on the following turn.
         '''
         player_human_moves = list()
         player_AI_moves = list()
@@ -93,10 +89,14 @@ class Game(models.Model):
         return {self.player_human: player_human_moves, self.player_AI: player_AI_moves}
 
     def make_move(self, player, space):
+        '''Makes a move by adding player's letter to board and updating database.
+        '''
         board = self.get_board()
         board[space] = player
         self.board_str = str(board)
         self.save()
 
     def __unicode__(self):
+        '''Shows a string representation of the board.
+        '''
         return self.board_str
