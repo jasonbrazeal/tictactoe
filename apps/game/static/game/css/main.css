@@ -93,14 +93,17 @@ textarea {
 
 h1 {
     position: absolute;
-    top: 50px;
-    left: 50px;
+    top: 40px;
+    left: 40px;
+    font-size: 400% !important;
 }
 
 h2 {
     position: absolute;
-    top: 100px;
+    top: 125px;
     left: 75px;
+    font-family: "Gochi Hand", Helvetica, sans-serif !important;
+    font-size: 250% !important;
 }
 
 #board {
@@ -122,14 +125,14 @@ h2 {
     margin: 90px auto 10px auto;
     padding: 5px;
     display: block;
-    border-radius: 2px;
+    border-radius: 4px !important;
 }
 
 #cat {
     display: none;
     position: absolute;
     top: 150px;
-    right: 0;
+    right: 40px;
     height: 370px;
     width: 300px;
     z-index: 999;
@@ -152,6 +155,11 @@ h2 {
 .ui-dialog-buttonpane {
     float: right;
     border-width: 0 !important;
+}
+
+.ui-icon-closethick,
+.ui-dialog-titlebar {
+    display: none !important;
 }
 
 #space0, #space1, #space2 {

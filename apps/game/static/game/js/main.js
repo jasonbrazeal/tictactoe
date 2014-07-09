@@ -1,12 +1,18 @@
 $(document).ready(function() {
 
+    $('#start').hover(function() {
+        $('#start').addClass('ui-state-hover');
+    }, function() {
+        $('#start').removeClass('ui-state-hover');
+    });
+
     $('#start').click(function(e) {
         $('#dialog-setup').dialog({
             resizable: false,
             modal: false,
             autoOpen: true,
             width: '425px',
-            height: '100px',
+            height: '150px',
             dialogClass: 'dialog' ,
             position: {
                 my: 'center top',
@@ -95,8 +101,8 @@ $(document).ready(function() {
                                     resizable: false,
                                     modal: true,
                                     autoOpen: true,
-                                    width: '550px',
-                                    height: '100px',
+                                    width: '600px',
+                                    height: '130px !important',
                                     dialogClass: 'dialog' ,
                                     position: {
                                         my: 'center top',
@@ -139,12 +145,13 @@ $(document).ready(function() {
     ); /* hover */
 
     if ($('#has_game').text()) {
+        $('#start').hide();
         $('#dialog-continue').dialog({
             resizable: false,
             modal: true,
             autoOpen: true,
-            width: '475px',
-            height: '100px',
+            width: '550px',
+            height: '130px !important',
             dialogClass: 'dialog' ,
             position: {
                 my: 'center top',
@@ -154,7 +161,6 @@ $(document).ready(function() {
             title: '',
             buttons: {
                 "Sure": function() {
-                    $('#start').hide();
                     $(this).dialog('close');
                     $('#board').fadeIn('slow');
                 },

@@ -131,7 +131,8 @@ def play(request):
     return HttpResponse(json.dumps(response), content_type="application/json")
 
 def thanks(request):
-    return HttpResponse('Thanks for playing!')
+    return render_to_response('game/thanks.html')
+
 
 def clear(request):
     if not request.is_ajax():
