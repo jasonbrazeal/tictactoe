@@ -12,7 +12,7 @@ DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 
-EMAIL_HOST = 'smtp.webfaction.com'
+EMAIL_HOST = ''
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 DEFAULT_FROM_EMAIL = ''
@@ -22,12 +22,12 @@ SERVER_EMAIL = ''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'tic_tac_toe',                      # Or path to database file if using sqlite3.
+        'NAME': '/var/www/db/tic_tac_toe_dev.db',                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
-        'USER': 'jason379',
+        'USER': '',
         'PASSWORD': '',
-        'HOST': 'web388.webfaction.com',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '3306',                      # Set to empty string for default.
+        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+        'PORT': '',                      # Set to empty string for default.
     }
 }
 
@@ -44,11 +44,11 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = '/home/jason379/webapps/tic_tac_toe_static/'
+STATIC_ROOT = '/var/www/html/'
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
-STATIC_URL = 'http://tic_tac_toe.jasonbrazeal.com/static/'
+STATIC_URL = 'http://tictactoe.jasonbrazeal.com/static/'
 
 # Additional locations of static files
 # STATICFILES_DIRS = (
