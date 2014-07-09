@@ -7,6 +7,7 @@ from tic_tac_toe.apps.game import views
 urlpatterns = patterns('',
     url(r'^$', views.home, name='home'),
     url(r'^setup$', views.setup, name='setup'),
+    url(r'^clear$', views.clear, name='clear'),
     url(r'^play$', views.play, name='play'),
     url(r'^thanks$', views.thanks, name='thanks'),
 )

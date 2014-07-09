@@ -9,12 +9,14 @@ $(document).ready(function() {
             beforeSend: function(){
             },
             success: function(responseData){
+                $('#board td').text();
                 $('#board').fadeIn('slow');
             }, /* success */
             error: function(jqXHR, textStatus, errorThrown){
                 $('h1').text(textStatus + ' ' + errorThrown);
             }, /* error */
             complete: function(jqXHR, textStatus){
+                $('#has_game').text('True');
             } /* complete */
         }); /* ajax call */
     }
@@ -132,4 +134,51 @@ $(document).ready(function() {
             $(this).removeClass('shaded');
         }
     ); /* hover */
+
+    if ($('#has_game').text()) {
+        $('#dialog-continue').dialog({
+            resizable: false,
+            modal: true,
+            autoOpen: true,
+            width: '500px',
+            height: '100px',
+            dialogClass: 'dialog' ,
+            position: {
+                my: 'center top',
+                at: 'center top',
+                of: $('html'),
+            },
+            title: 'tic-tac-toe',
+            buttons: {
+                "Sure": function() {
+                    $(this).dialog('close');
+                    $('#board').fadeIn('slow');
+                },
+                "Nah...start over": function() {
+                    clearSession();
+                }
+            }, /* buttons */
+            close: function() {
+            } /* close */
+        }); /* dialog */
+    } /* has game */
+
+   function clearSession() {
+        $.ajax({
+            url: '/clear',
+            type: 'POST',
+            data: '',
+            dataType: 'html',
+            beforeSend: function(){
+            },
+            success: function(responseData){
+                $('#has_game').text();
+                window.location.reload();
+            }, /* success */
+            error: function(jqXHR, textStatus, errorThrown){
+            }, /* error */
+            complete: function(jqXHR, textStatus){
+            } /* complete */
+        }); /* ajax call */
+    }
 }); /* document.ready */

@@ -101,11 +101,11 @@ textarea {
     border: 1px solid #000;
 }
 
-#dialog-confirm {
-    display: none;
-}
-
-#dialog-setup {
+#dialog-continue,
+#dialog-setup,
+#dialog-confirm,
+#player_human,
+#has_game {
     display: none;
 }
 
@@ -138,10 +138,6 @@ textarea {
 
 .shaded {
     background-color: #f6f6f6;
-}
-
-#player_human {
-    display: none;
 }
 
 /* ==========================================================================

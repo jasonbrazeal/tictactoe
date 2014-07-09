@@ -11,12 +11,16 @@ def home(request):
     if request.session.get('has_game', False):
         g = Game.objects.filter(session_id=request.session._session_key).order_by('-date_created')[0]
         board = g.get_board()
+        board = [i if i is not None else '' for i in board]
+        player_human = g.player_human
     else:
         board = []
-    # put Xs and Os in context if session exists
+        player_human = ''
     return render_to_response('game/home.html',
-                              {'board': board},
-                              context_instance=RequestContext(request))
+                              {'board': board,
+                               'has_game': request.session.get('has_game', ''),
+                               'player_human': player_human},
+                               context_instance=RequestContext(request))
 
 def setup(request):
     if not request.is_ajax():
@@ -28,10 +32,7 @@ def setup(request):
         player_AI = 'O'
     else:
         player_AI = 'X'
-        # player_human = 'O'
 
-    # request.session['player_human'] = player_human
-    # request.session['player_AI'] = player_AI
     g = Game(session_id=request.session._session_key, player_human=player_human, player_AI=player_AI)
     g.save()
     request.session['has_game'] = True
@@ -123,3 +124,9 @@ def play(request):
 
 def thanks(request):
     return HttpResponse('Thanks for playing!')
+
+def clear(request):
+    if not request.is_ajax():
+        return HttpResponse('Invalid call. AJAX required.')
+    request.session.flush()
+    return HttpResponse('Session cleared.')
