@@ -1,13 +1,16 @@
-from django.shortcuts import render_to_response
-from django.template import RequestContext
-# from django.http import JsonResponse
-from django.http import HttpResponse
 from random import randint
 import json
+import time
+
+from django.shortcuts import render_to_response
+from django.template import RequestContext
+from django.http import HttpResponse
 
 from game.models import Game
 
 def home(request):
+    '''Renders main application page. Loads prior game in progress if one exists, otherwise loads blank board.
+    '''
     if request.session.get('has_game', False):
         g = Game.objects.filter(session_id=request.session._session_key).order_by('-date_created')[0]
         board = g.get_board()
@@ -23,6 +26,8 @@ def home(request):
                                context_instance=RequestContext(request))
 
 def setup(request):
+    '''AJAX function for creating new game.
+    '''
     if not request.is_ajax():
         return HttpResponse('Invalid call. AJAX required.')
 
@@ -40,12 +45,15 @@ def setup(request):
 
 
 def play(request):
+    '''AJAX function that contains main game flow logic. Checks for win/tie after the human player's move. Then chooses a move for the AI player and checks again for win/tie. Clears session and returns a JSON response whenever a win/tie is detected.
+    '''
     if not request.is_ajax():
         return HttpResponse('Invalid call. AJAX required.')
-    import time
+
     time.sleep(1)
     space_human = int(request.POST['space_human'])
 
+    # retrieve game from database (the most recent one saved under user's session id)
     g = Game.objects.filter(session_id=request.session._session_key).order_by('-date_created')[0]
 
     player_human = g.player_human
@@ -123,8 +131,6 @@ def play(request):
         request.session.flush()
         return HttpResponse(json.dumps(response), content_type="application/json")
 
-    # update session if needed
-    # board_json = json.dumps(g.get_board())
     response = ({'space_AI': str(space_AI),
                  'player_AI': player_AI,
                  'player_human': player_human
@@ -132,10 +138,13 @@ def play(request):
     return HttpResponse(json.dumps(response), content_type="application/json")
 
 def thanks(request):
+    '''Renders simple thank you page after user decides to play no more.
+    '''
     return render_to_response('game/thanks.html')
 
-
 def clear(request):
+    '''AJAX function to clear session after game is over.
+    '''
     if not request.is_ajax():
         return HttpResponse('Invalid call. AJAX required.')
     request.session.flush()
