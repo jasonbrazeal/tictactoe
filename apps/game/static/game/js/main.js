@@ -63,16 +63,21 @@ $(document).ready(function() {
         var postData = {
             'space_human': $(this).attr('id').substr(-1),
         };
-        if (!$(this).text()) {
-            $(this).text($('#player_human').text());
-            $(this).removeClass('shaded');
+        var isAvailable = !$(this).text();
+        makePlay(postData, isAvailable);
+    }); /* click on td */
+
+    function makePlay(postData, isAvailable) {
+        if (isAvailable) {
+            $('#space' + postData.space_human).text($('#player_human').text());
+            $('#space' + postData.space_human).removeClass('shaded');
             $.ajax({
                 url: '/play',
                 type: 'POST',
                 data: postData,
                 dataType: 'json',
                 beforeSend: function(){
-                    // block user form clicking on tds while this request is processing
+                    $('#loading').show();
                 },
                 success: function(responseData){
                     // board = $.parseJSON(responseData.board) # python list
@@ -88,6 +93,7 @@ $(document).ready(function() {
                         // $(this).text(''); // remove player's move on error
                 }, /* error */
                 complete: function(jqXHR, textStatus){
+                        $('#loading').hide();
                         responseData = $.parseJSON(jqXHR.responseText);
                         if (responseData.winner || responseData.tie) {
                             $(function() {
@@ -125,9 +131,8 @@ $(document).ready(function() {
                         } /* if game over */
                 } /* complete */
             }); /* ajax call */
-                // e.preventDefault(); // to stop default action
-        }
-    }); /* make a play */
+        } /* if space not taken */
+    } /* makePlay */
 
     $('#reset').click(function() {
         window.location.reload();
@@ -146,6 +151,7 @@ $(document).ready(function() {
 
     if ($('#has_game').text()) {
         $('#start').hide();
+        $('#board').fadeIn('slow');
         $('#dialog-continue').dialog({
             resizable: false,
             modal: true,
@@ -162,7 +168,6 @@ $(document).ready(function() {
             buttons: {
                 "Sure": function() {
                     $(this).dialog('close');
-                    $('#board').fadeIn('slow');
                 },
                 "Nah...start over": function() {
                     clearSession();

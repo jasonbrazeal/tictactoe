@@ -42,7 +42,8 @@ def setup(request):
 def play(request):
     if not request.is_ajax():
         return HttpResponse('Invalid call. AJAX required.')
-
+    import time
+    time.sleep(1)
     space_human = int(request.POST['space_human'])
 
     g = Game.objects.filter(session_id=request.session._session_key).order_by('-date_created')[0]

@@ -138,6 +138,20 @@ h2 {
     z-index: 999;
 }
 
+#loading {
+    height: 420px;
+    width: 400px;
+    display: none;
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    margin-left: -200px;
+    background-image: url('../img/loader.gif');
+    background-color: transparent;
+    background-position: center top;
+    background-repeat: no-repeat;
+}
+
 #dialog-continue,
 #dialog-setup,
 #dialog-confirm,

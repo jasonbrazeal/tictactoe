@@ -28,8 +28,7 @@
         <h1>tic tac toe</h1>
         <h2>by Jason Brazeal</h2>
         <button id="start" type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button"><span class="ui-button-text">start game</span></button>
-<!--         <button id="start"><span class="ui-button-text">start game</span></button>
- -->        <table id="board">
+        <table id="board">
             <tbody>
                 <tr>
                     <td id="space0">{{ board.0 }}</td>
@@ -48,6 +47,8 @@
                 </tr>
             </tbody>
         </table>
+
+        <div id="loading"></div>
 
         <div id="dialog-confirm">
             The winner is...<span id="winner"></span>! Play again?
