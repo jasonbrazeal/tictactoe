@@ -1,11 +1,14 @@
 $(document).ready(function() {
 
+// highlights start button when you hover over it
     $('#start').hover(function() {
         $('#start').addClass('ui-state-hover');
     }, function() {
         $('#start').removeClass('ui-state-hover');
     });
 
+// starts the game by showing dialog to choose Xs or Os
+// calls setupGame function
     $('#start').click(function(e) {
         $('#dialog-setup').dialog({
             resizable: false,
@@ -36,8 +39,10 @@ $(document).ready(function() {
                 $('#start').hide();
             } /* close */
         }); /* dialog */
-    }); /* setup */
+    }); /* start */
 
+// makes ajax call to save new game session to database
+// fades in board if successful
     function setupGame(postData) {
         $.ajax({
             url: '/setup',
@@ -59,6 +64,7 @@ $(document).ready(function() {
         }); /* ajax call */
     }
 
+// handles click on any tic-tac-toe space
     $('#board td').click(function(e) {
         var postData = {
             'space_human': $(this).attr('id').substr(-1),
@@ -67,6 +73,8 @@ $(document).ready(function() {
         makePlay(postData, isAvailable);
     }); /* click on td */
 
+// makes ajax call to save player's move to database, check win/tie, get AI's move, and check again for win/tie
+// if win/tie, shows results and 'continue playing' dialog, otherwise makes AI's move
     function makePlay(postData, isAvailable) {
         if (isAvailable) {
             $('#space' + postData.space_human).text($('#player_human').text());
@@ -134,10 +142,7 @@ $(document).ready(function() {
         } /* if space not taken */
     } /* makePlay */
 
-    $('#reset').click(function() {
-        window.location.reload();
-    }); /* reset/refresh */
-
+// shades board space when you hover over it
     $('#board td').hover(
         function() {
             if (!$(this).text()) {
@@ -149,6 +154,7 @@ $(document).ready(function() {
         }
     ); /* hover */
 
+// detects if user already has a game in progress and brings up 'continue game' dialog and board if so
     if ($('#has_game').text()) {
         $('#start').hide();
         $('#board').fadeIn('slow');
@@ -178,6 +184,7 @@ $(document).ready(function() {
         }); /* dialog */
     } /* has game */
 
+// makes ajax call to clear django session then reloads page
    function clearSession() {
         $.ajax({
             url: '/clear',
