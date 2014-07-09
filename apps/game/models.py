@@ -1,7 +1,10 @@
 from django.db import models
 
 class Game(models.Model):
-    '''Tic-tac-toe game. Inspired by http://inventwithpython.com/chapter10.html and https://github.com/sontek-archive/django-tictactoe/blob/master/small_tictactoe/apps/core/models.py
+    '''Tic-tac-toe game. Inspired by:
+        http://inventwithpython.com/chapter10.html
+        https://github.com/sontek-archive/django-tictactoe/blob/master/small_tictactoe/apps/core/models.py
+        http://tictactoe.geekshack.net/
     '''
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
@@ -10,7 +13,7 @@ class Game(models.Model):
     board_str = models.CharField(max_length=54, default=[None]*9) # max length: [None, None, None, None, None, None, None, None, None]
     player_human = models.CharField(max_length=1, default='X') # X, O
     player_AI = models.CharField(max_length=1, default='O') # X, O
-    winner = models.CharField(max_length=4, null=True, default=None) # X, O, None/NULL
+    winner = models.CharField(max_length=4, null=True, default=None) # X, O, cat
 
     def get_board(self):
         '''Returns the tic-tac-toe board as a Python list object.

@@ -53,6 +53,8 @@ def play(request):
     g.make_move(player_human, space_human)
 
     if g.get_winner():
+        g.winner = g.get_winner()
+        g.save()
         response = ({'winner': player_human,
                      'tie': True
                     })
@@ -60,6 +62,8 @@ def play(request):
         return HttpResponse(json.dumps(response), content_type="application/json")
 
     if g.is_tie():
+        g.winner = 'cat'
+        g.save()
         response = ({'winner': 'the cat',
                      'tie': True
                     })
@@ -95,6 +99,8 @@ def play(request):
     g.make_move(player_AI, space_AI)
 
     if g.get_winner():
+        g.winner = g.get_winner()
+        g.save()
         response = ({'space_AI': str(space_AI),
                      'winner': player_AI,
                      'tie': False,
@@ -105,6 +111,8 @@ def play(request):
         return HttpResponse(json.dumps(response), content_type="application/json")
 
     if g.is_tie():
+        g.winner = 'cat'
+        g.save()
         response = ({'space_AI': str(space_AI),
                      'winner': 'the cat',
                      'tie': True,

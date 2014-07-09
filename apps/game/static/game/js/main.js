@@ -1,5 +1,37 @@
 $(document).ready(function() {
 
+    $('#start').click(function(e) {
+        $('#dialog-setup').dialog({
+            resizable: false,
+            modal: false,
+            autoOpen: true,
+            width: '425px',
+            height: '100px',
+            dialogClass: 'dialog' ,
+            position: {
+                my: 'center top',
+                at: 'center top',
+                of: $('html'),
+            },
+            title: '',
+            buttons: {
+              "I'll be Xs": function() {
+                setupGame({'player_human': 'X'});
+                $(this).dialog('close');
+                $('#player_human').text('X');
+              }, /* 'X' */
+              "Gimme Os": function() {
+                setupGame({'player_human': 'O'});
+                $(this).dialog('close');
+                $('#player_human').text('O');
+              } /* 'O' */
+            }, /* buttons */
+            close: function() {
+                $('#start').hide();
+            } /* close */
+        }); /* dialog */
+    }); /* setup */
+
     function setupGame(postData) {
         $.ajax({
             url: '/setup',
@@ -9,48 +41,17 @@ $(document).ready(function() {
             beforeSend: function(){
             },
             success: function(responseData){
-                $('#board td').text();
+                $('#board td').text('');
                 $('#board').fadeIn('slow');
             }, /* success */
             error: function(jqXHR, textStatus, errorThrown){
-                $('h1').text(textStatus + ' ' + errorThrown);
+                console.log(textStatus + ' ' + errorThrown);
             }, /* error */
             complete: function(jqXHR, textStatus){
                 $('#has_game').text('True');
             } /* complete */
         }); /* ajax call */
     }
-
-    $('#setup').click(function(e) {
-        $('#dialog-setup').dialog({
-            resizable: false,
-            modal: true,
-            autoOpen: true,
-            width: '500px',
-            height: '100px',
-            dialogClass: 'dialog' ,
-            position: {
-                my: 'center top',
-                at: 'center top',
-                of: $('html'),
-            },
-            title: 'tic-tac-toe',
-            buttons: {
-              "I'll be Xs": function() {
-                setupGame({'player_human': 'X'});
-                $(this).dialog('close');
-                $('#player_human').text('X')
-              }, /* 'X' */
-              "Gimme Os": function() {
-                setupGame({'player_human': 'O'});
-                $(this).dialog('close');
-                $('#player_human').text('O')
-              } /* 'O' */
-            }, /* buttons */
-            close: function() {
-            } /* close */
-        }); /* dialog */
-    }); /* setup */
 
     $('#board td').click(function(e) {
         var postData = {
@@ -71,13 +72,13 @@ $(document).ready(function() {
                     // board = $.parseJSON(responseData.board) # python list
                     $('#space' + String(responseData.space_AI)).text(responseData.player_AI);
                     if (responseData.winner) {
-                        $('h1').text(responseData.winner + ' is the winner!!!');
+                        console.log(responseData.winner + ' is the winner!!!');
                     } else if (responseData.tie) {
-                        $('h1').text("tie...cat's game!!!");
+                        console.log("tie...cat's game!!!");
                     }
                 }, /* success */
                 error: function(jqXHR, textStatus, errorThrown){
-                        $('h1').text('error...please try your move again. (error info: ' + errorThrown + ' - ' + textStatus);
+                        console.log('error info: ' + errorThrown + ' - ' + textStatus);
                         // $(this).text(''); // remove player's move on error
                 }, /* error */
                 complete: function(jqXHR, textStatus){
@@ -94,7 +95,7 @@ $(document).ready(function() {
                                     resizable: false,
                                     modal: true,
                                     autoOpen: true,
-                                    width: '500px',
+                                    width: '550px',
                                     height: '100px',
                                     dialogClass: 'dialog' ,
                                     position: {
@@ -102,13 +103,13 @@ $(document).ready(function() {
                                         at: 'center top',
                                         of: $('html'),
                                     },
-                                    title: 'tic-tac-toe',
+                                    title: '',
                                     buttons: {
-                                      'Yes': function() {
+                                      'Yeah': function() {
                                         $(this).dialog('close');
                                         window.location.reload();
                                       },
-                                      'Exit': function() {
+                                      'Nope': function() {
                                         $(this).dialog('close');
                                         window.location = '/thanks';
                                       }
@@ -142,7 +143,7 @@ $(document).ready(function() {
             resizable: false,
             modal: true,
             autoOpen: true,
-            width: '500px',
+            width: '475px',
             height: '100px',
             dialogClass: 'dialog' ,
             position: {
@@ -150,9 +151,10 @@ $(document).ready(function() {
                 at: 'center top',
                 of: $('html'),
             },
-            title: 'tic-tac-toe',
+            title: '',
             buttons: {
                 "Sure": function() {
+                    $('#start').hide();
                     $(this).dialog('close');
                     $('#board').fadeIn('slow');
                 },
@@ -178,6 +180,7 @@ $(document).ready(function() {
                 window.location.reload();
             }, /* success */
             error: function(jqXHR, textStatus, errorThrown){
+                console.log('error info: ' + errorThrown + ' - ' + textStatus);
             }, /* error */
             complete: function(jqXHR, textStatus){
             } /* complete */
