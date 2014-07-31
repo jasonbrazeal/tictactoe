@@ -91,38 +91,27 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
-h1 {
-    position: absolute;
-    top: 40px;
-    left: 40px;
-    font-size: 400% !important;
+#wrapper {
+    position: relative; /* to contain enclosing absolutely positioned elements */
+    margin: 0 auto;
 }
 
 h2 {
-    position: absolute;
-    top: 125px;
-    left: 75px;
     font-family: "Gochi Hand", Helvetica, sans-serif !important;
-    font-size: 250% !important;
 }
 
 #board {
-    margin: 150px auto 0 auto;
     display: none;
 }
 
 #board td {
-    height: 120px;
-    width: 120px;
     border: 2px solid #222;
     text-align: center;
     color: #222;
     font-weight: bold;
-    font-size: 40px;
 }
 
 #start {
-    margin: 90px auto 10px auto;
     padding: 5px;
     display: block;
     border-radius: 4px !important;
@@ -130,22 +119,11 @@ h2 {
 
 #cat {
     display: none;
-    position: absolute;
-    top: 150px;
-    right: 40px;
-    height: 370px;
-    width: 300px;
     z-index: 999;
 }
 
 #loading {
-    height: 450px;
-    width: 400px;
     display: none;
-    position: absolute;
-    top: 120px;
-    left: 50%;
-    margin-left: -200px;
     background-image: url('../img/loader.gif');
     background-color: transparent;
     background-position: center bottom;
@@ -195,6 +173,163 @@ h2 {
 .shaded {
     background-color: #f6f6f6;
 }
+
+/* Desktops and laptops */
+@media only screen
+and (min-width: 1200px) {
+
+#wrapper {
+    max-width: 1200px;
+}
+
+h1 {
+    float: left;
+    font-size: 400% !important;
+    width: 300px;
+    margin: .67em 0 0 .67em !important;
+}
+
+h2 {
+    float: left;
+    clear: left;
+    font-size: 250% !important;
+    width: 300px;
+    margin: -.5em 0 0 1.5em !important
+}
+
+#board {
+    clear: left;
+    margin: 0 auto;
+}
+
+#board td {
+    height: 120px;
+    width: 120px;
+    font-size: 40px;
+}
+
+#start {
+    float: left;
+    margin: 65px 0 0 200px;
+}
+
+#cat {
+    position: absolute;
+    top: 150px;
+    right: 40px;
+    height: 370px;
+    width: 300px;
+}
+
+#loading {
+    height: 450px;
+    width: 400px;
+    position: absolute;
+    top: 120px;
+    left: 50%;
+    margin-left: -200px;
+}
+
+#thanks {
+    width: 100%;
+}
+
+} /* Desktops and laptops */
+
+/* iPads (portrait and landscape) */
+@media only screen
+and (min-width: 768px)
+and (max-width: 1199px) {
+
+h1 {
+    font-size: 400% !important;
+    width: 300px;
+    margin: .67em auto 0 auto !important;
+}
+
+h2 {
+    font-size: 250% !important;
+    width: 300px;
+    margin: 0 auto !important;
+    position: relative; /* switch the position of start button and h2 */
+    top: -70px;
+}
+
+#board {
+    margin: 20px auto 0 auto;
+}
+
+#board td {
+    height: 120px;
+    width: 120px;
+    font-size: 40px;
+}
+
+#start {
+    margin: 0 auto;
+    position: relative; /* switch the position of start button and h2 */
+    top: 70px;
+}
+
+#cat {
+    position: absolute;
+    top: 210px;
+    left: 50%;
+    margin-left: -182px;
+    height: 450px;
+    width: 365px;
+}
+
+#loading {
+    height: 450px;
+    width: 400px;
+    position: absolute;
+    top: 120px;
+    left: 50%;
+    margin-left: -200px;
+}
+
+#thanks {
+    text-align: center;
+    width: 100%;
+}
+
+#thanks2 {
+    position: static; /* switch the position of start button and h2 */
+    text-align: center;
+}
+
+} /* iPads (portrait and landscape) */
+
+/* Smartphones (portrait and landscape) */
+@media only screen
+and (max-width: 767px) {
+
+h1 {
+    font-size: 250% !important;
+    width: 300px;
+    margin: .67em auto 0 auto !important;
+}
+
+h2 {
+    font-size: 150% !important;
+    width: 300px;
+    margin: 0 auto !important;
+    position: relative; /* switch the position of start button and h2 */
+    top: -70px;
+}
+
+#thanks {
+    text-align: center;
+    width: 80%;
+}
+
+#thanks2 {
+    position: static; /* switch the position of start button and h2 */
+    text-align: center;
+}
+
+} /* Smartphones (portrait and landscape) */
 
 /* ==========================================================================
    Helper classes
@@ -275,8 +410,58 @@ h2 {
    Modify as content requires.
    ========================================================================== */
 
-@media only screen and (min-width: 35em) {
-    /* Style adjustments for viewports that meet the condition */
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen
+and (min-device-width : 320px)
+and (max-device-width : 480px) {
+/* Styles */
+}
+
+/* Smartphones (landscape) ----------- */
+@media only screen
+and (min-width : 321px) {
+/* Styles */
+}
+
+/* Smartphones (portrait) ----------- */
+@media only screen
+and (max-width : 320px) {
+/* Styles */
+}
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px) {
+/* Styles */
+}
+
+/* iPads (landscape) ----------- */
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px)
+and (orientation : landscape) {
+/* Styles */
+}
+
+/* iPads (portrait) ----------- */
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px)
+and (orientation : portrait) {
+/* Styles */
+}
+
+/* Desktops and laptops ----------- */
+@media only screen
+and (min-width : 1224px) {
+/* Styles */
+}
+
+/* Large screens ----------- */
+@media only screen
+and (min-width : 1824px) {
+/* Styles */
 }
 
 @media print,

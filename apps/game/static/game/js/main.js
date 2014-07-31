@@ -1,5 +1,38 @@
 $(document).ready(function() {
 
+// get screen size for positioning dialog boxes
+var screenSize;
+
+if (Modernizr.mq('only screen and (max-width: 767px)')) {
+    screenSize = 'small_screen'
+}
+
+if (Modernizr.mq('only screen and (min-width: 768px) and (max-width: 1199px)')) {
+    screenSize = 'med_screen'
+}
+
+if (Modernizr.mq('only screen and (min-width: 1200px)')) {
+    screenSize = 'big_screen'
+}
+
+var dialogSetupPositions = {
+                             'big_screen': {'my': 'center top',
+                                            'at': 'center top'},
+                             'med_screen': {'my': 'center top',
+                                            'at': 'center top+175'},
+                             'small_screen': {'my': 'center top',
+                                              'at': 'center top+175'},
+                             };
+
+var dialogConfirmPositions = {
+                             'big_screen': {'my': 'right top',
+                                            'at': 'right-170 top'},
+                             'med_screen': {'my': 'center top',
+                                            'at': 'center top+120'},
+                             'small_screen': {'my': 'center top',
+                                              'at': 'center top+175'},
+                             };
+
 // highlights start button when you hover over it
     $('#start').hover(function() {
         $('#start').addClass('ui-state-hover');
@@ -14,12 +47,13 @@ $(document).ready(function() {
             resizable: false,
             modal: false,
             autoOpen: true,
-            width: '425px',
-            height: '150px',
-            dialogClass: 'dialog' ,
+            closeOnEscape: false,
+            width: '650px',
+            height: '130px !important',
+            dialogClass: 'dialog',
             position: {
-                my: 'center top',
-                at: 'center top',
+                my: dialogSetupPositions[screenSize].my,
+                at: dialogSetupPositions[screenSize].at,
                 of: $('html'),
             },
             title: '',
@@ -36,7 +70,7 @@ $(document).ready(function() {
               } /* 'O' */
             }, /* buttons */
             close: function() {
-                $('#start').hide();
+                $('#start').css('visibility', 'hidden');
             } /* close */
         }); /* dialog */
     }); /* start */
@@ -115,13 +149,14 @@ $(document).ready(function() {
                                     resizable: false,
                                     modal: true,
                                     autoOpen: true,
+                                    closeOnEscape: false,
                                     width: '600px',
                                     height: '130px !important',
                                     dialogClass: 'dialog' ,
                                     position: {
-                                        my: 'center top',
-                                        at: 'center top',
-                                        of: $('html'),
+                                        my: dialogConfirmPositions[screenSize].my,
+                                        at: dialogConfirmPositions[screenSize].at,
+                                        of: $('#wrapper'),
                                     },
                                     title: '',
                                     buttons: {
@@ -162,6 +197,7 @@ $(document).ready(function() {
             resizable: false,
             modal: true,
             autoOpen: true,
+            closeOnEscape: false,
             width: '550px',
             height: '130px !important',
             dialogClass: 'dialog' ,
