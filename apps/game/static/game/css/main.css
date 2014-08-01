@@ -102,6 +102,7 @@ h2 {
 
 #board {
     display: none;
+    margin: 0 auto;
 }
 
 #board td {
@@ -199,7 +200,6 @@ h2 {
 
 #board {
     clear: left;
-    margin: 0 auto;
 }
 
 #board td {
@@ -215,7 +215,7 @@ h2 {
 
 #cat {
     position: absolute;
-    top: 150px;
+    top: 175px;
     right: 40px;
     height: 370px;
     width: 300px;
@@ -256,7 +256,7 @@ h2 {
 }
 
 #board {
-    margin: 20px auto 0 auto;
+    position: relative;
 }
 
 #board td {
@@ -273,9 +273,10 @@ h2 {
 
 #cat {
     position: absolute;
-    top: 210px;
+    top: 207px;
     left: 50%;
     margin-left: -182px;
+    margin-bottom: 50px;
     height: 450px;
     width: 365px;
 }
@@ -284,7 +285,7 @@ h2 {
     height: 450px;
     width: 400px;
     position: absolute;
-    top: 120px;
+    top: 190px;
     left: 50%;
     margin-left: -200px;
 }
@@ -295,7 +296,7 @@ h2 {
 }
 
 #thanks2 {
-    position: static; /* switch the position of start button and h2 */
+    position: static;
     text-align: center;
 }
 
@@ -307,16 +308,62 @@ and (max-width: 767px) {
 
 h1 {
     font-size: 250% !important;
-    width: 300px;
+    width: 100%;
     margin: .67em auto 0 auto !important;
+    text-align: center;
 }
 
 h2 {
     font-size: 150% !important;
-    width: 300px;
+    width: 100%;
     margin: 0 auto !important;
     position: relative; /* switch the position of start button and h2 */
-    top: -70px;
+    top: -67px;
+    text-align: center;
+}
+
+.ui-dialog-content {
+    height: 20px !important;
+    padding-top: 20px !important;
+}
+
+.ui-widget-content {
+    font-size: 75%;
+}
+
+#board {
+    position: relative;
+}
+
+#board td {
+    height: 80px;
+    width: 80px;
+    font-size: 30px;
+}
+
+#start {
+    margin: 0 auto;
+    position: relative; /* switch the position of start button and h2 */
+    top: 60px;
+}
+
+#cat {
+    position: absolute;
+    top: 180px;
+    left: 50%;
+    margin-left: -160px;
+    margin-bottom: 50px;
+    height: 395px;
+    width: 320px;
+}
+
+#loading {
+    height: 325px;
+    width: 325px;
+    position: absolute;
+    top: 125px;
+    left: 50%;
+    margin-left: -175px;
 }
 
 #thanks {

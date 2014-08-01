@@ -4,34 +4,72 @@ $(document).ready(function() {
 var screenSize;
 
 if (Modernizr.mq('only screen and (max-width: 767px)')) {
-    screenSize = 'small_screen'
+    screenSize = 'small_screen';
+    $('#dialog-continue').text('Continue?');
 }
 
 if (Modernizr.mq('only screen and (min-width: 768px) and (max-width: 1199px)')) {
-    screenSize = 'med_screen'
+    screenSize = 'med_screen';
 }
 
 if (Modernizr.mq('only screen and (min-width: 1200px)')) {
-    screenSize = 'big_screen'
+    screenSize = 'big_screen';
 }
 
-var dialogSetupPositions = {
+// part of the dialogs' look is configured in the CSS, e.g. internal height (.ui-dialog-content)
+var dialogSetupConfig = {
                              'big_screen': {'my': 'center top',
-                                            'at': 'center top'},
+                                            'at': 'center+125 top+60',
+                                            'width': '625px',
+                                            'height': '130px !important'},
                              'med_screen': {'my': 'center top',
-                                            'at': 'center top+175'},
+                                            'at': 'center top+175',
+                                            'width': '625px',
+                                            'height': '130px !important'},
                              'small_screen': {'my': 'center top',
-                                              'at': 'center top+175'},
+                                              'at': 'center top+100',
+                                              'width': '300px',
+                                              'height': '150px !important'},
                              };
 
-var dialogConfirmPositions = {
-                             'big_screen': {'my': 'right top',
-                                            'at': 'right-170 top'},
+var dialogConfirmConfig = {
+                             'big_screen': {'my': 'center top',
+                                            'at': 'center+100 top+60',
+                                            'width': '625px',
+                                            'height': '130px !important'},
                              'med_screen': {'my': 'center top',
-                                            'at': 'center top+120'},
+                                            'at': 'center top+120',
+                                            'width': '625px',
+                                            'height': '130px !important',
+                                            'boardTop': '+=50',
+                                            'boardTopCat': '+=475'},
                              'small_screen': {'my': 'center top',
-                                              'at': 'center top+175'},
+                                              'at': 'center top+73',
+                                              'width': '300px',
+                                              'height': '150px !important',
+                                              'boardTop': '+=50',
+                                              'boardTopCat': '+=450'},
                              };
+
+var dialogContinueConfig = {
+                             'big_screen': {'my': 'center top',
+                                            'at': 'center+100 top+60',
+                                            'width': '625px',
+                                            'height': '130px !important',
+                                            'startOverText': 'Nah...start over'},
+                             'med_screen': {'my': 'center top',
+                                            'at': 'center top+170',
+                                            'width': '625px',
+                                            'height': '130px !important',
+                                            'startOverText': 'Nah...start over'},
+                             'small_screen': {'my': 'center top',
+                                              'at': 'center top+95',
+                                              'width': '300px',
+                                              'height': '150px !important',
+                                              'startOverText': 'Nah...'},
+                             };
+
+
 
 // highlights start button when you hover over it
     $('#start').hover(function() {
@@ -48,12 +86,12 @@ var dialogConfirmPositions = {
             modal: false,
             autoOpen: true,
             closeOnEscape: false,
-            width: '650px',
-            height: '130px !important',
+            width: dialogSetupConfig[screenSize].width,
+            height: dialogSetupConfig[screenSize].height,
             dialogClass: 'dialog',
             position: {
-                my: dialogSetupPositions[screenSize].my,
-                at: dialogSetupPositions[screenSize].at,
+                my: dialogSetupConfig[screenSize].my,
+                at: dialogSetupConfig[screenSize].at,
                 of: $('html'),
             },
             title: '',
@@ -142,30 +180,38 @@ var dialogConfirmPositions = {
                                 $('#winner').text(responseData.winner);
                                 if (responseData.tie) {
                                     $('#cat').show(); // show grumpy cat
+                                    $("#board").animate({
+                                        top: dialogConfirmConfig[screenSize].boardTopCat
+                                        }, 0, function() {
+                                        // Animation complete.
+                                    });
                                 } else {
                                     $('#winner').append('s'); // make X or O plural
+                                    $("#board").animate({
+                                        top: dialogConfirmConfig[screenSize].boardTop
+                                        }, 0, function() {
+                                        // Animation complete.
+                                    });
                                 }
                                 $('#dialog-confirm').dialog({
                                     resizable: false,
                                     modal: true,
                                     autoOpen: true,
                                     closeOnEscape: false,
-                                    width: '600px',
-                                    height: '130px !important',
-                                    dialogClass: 'dialog' ,
+                                    width: dialogConfirmConfig[screenSize].width,
+                                    height: dialogConfirmConfig[screenSize].height,
+                                    dialogClass: 'dialog',
                                     position: {
-                                        my: dialogConfirmPositions[screenSize].my,
-                                        at: dialogConfirmPositions[screenSize].at,
+                                        my: dialogConfirmConfig[screenSize].my,
+                                        at: dialogConfirmConfig[screenSize].at,
                                         of: $('#wrapper'),
                                     },
                                     title: '',
                                     buttons: {
                                       'Yeah': function() {
-                                        $(this).dialog('close');
                                         window.location.reload();
                                       },
                                       'Nope': function() {
-                                        $(this).dialog('close');
                                         window.location = '/thanks';
                                       }
                                     } /* buttons */
@@ -191,7 +237,7 @@ var dialogConfirmPositions = {
 
 // detects if user already has a game in progress and brings up 'continue game' dialog and board if so
     if ($('#has_game').text()) {
-        $('#start').hide();
+        $('#start').css('visibility', 'hidden');
         $('#board').fadeIn('slow');
         $('#dialog-continue').dialog({
             resizable: false,
@@ -199,22 +245,27 @@ var dialogConfirmPositions = {
             autoOpen: true,
             closeOnEscape: false,
             width: '550px',
-            height: '130px !important',
-            dialogClass: 'dialog' ,
+            width: dialogContinueConfig[screenSize].width,
+            height: dialogContinueConfig[screenSize].height,
+            dialogClass: 'dialog',
             position: {
-                my: 'center top',
-                at: 'center top',
+                my: dialogContinueConfig[screenSize].my,
+                at: dialogContinueConfig[screenSize].at,
                 of: $('html'),
             },
             title: '',
-            buttons: {
-                "Sure": function() {
+            buttons: [
+                {
+                    text: "Sure", click: function() {
                     $(this).dialog('close');
+                    }
                 },
-                "Nah...start over": function() {
+                {
+                    text: dialogContinueConfig[screenSize].startOverText, click: function() {
                     clearSession();
+                    }
                 }
-            }, /* buttons */
+            ], /* buttons */
             close: function() {
             } /* close */
         }); /* dialog */
