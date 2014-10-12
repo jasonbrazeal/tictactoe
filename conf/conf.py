@@ -22,9 +22,9 @@ WSGI_PATH = '/var/www/{}'.format(PROJECT_NAME)
 
 SECRETS_DMG = '/Users/jsonbrazeal/Dropbox/Credentials/secrets.dmg'
 
-REPO_NAME = 'tic-tac-toe' # assumes you've already created a github repo with this name
-# REPO_URL = 'git@github.com:jsonbrazeal/tic-tac-toe.git'
-REPO_URL = 'https://github.com/jsonbrazeal/tic-tac-toe.git'
+REPO_NAME = 'tictactoe' # assumes you've already created a github repo with this name
+# REPO_URL = 'git@github.com:jsonbrazeal/tictactoe.git'
+REPO_URL = 'https://github.com/jsonbrazeal/tictactoe.git'
 
 SERVER_IP_DEV = '104.131.74.88'
 HOSTNAME_DEV = 'dev.jasonbrazeal.com'
