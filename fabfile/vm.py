@@ -71,6 +71,7 @@ def provision_do():
     # # SMTP
     # sudo('iptables -A INPUT -p tcp -m tcp --dport 25 -j ACCEPT')
     # sudo('iptables -A INPUT -p tcp -m tcp --dport 465 -j ACCEPT')
+    sudo('iptables -A INPUT -p tcp -m tcp --dport 587 -j ACCEPT')
     # # POP3
     # sudo('iptables -A INPUT -p tcp -m tcp --dport 110 -j ACCEPT')
     # sudo('iptables -A INPUT -p tcp -m tcp --dport 995 -j ACCEPT')
@@ -158,6 +159,9 @@ def install_python(version):
         sudo('ln -s ../../libpython{}.so .'.format(version))
     sudo('echo "/usr/local/lib" >> /etc/ld.so.conf')
     sudo('ldconfig')
+    # make virtualenv dir and set permissions on it (must match .bashrc)
+    sudo('mkdir -p /opt/.virtualenvs')
+    sudo('chown '+ USER_NAME + ':' + USER_NAME + ' /opt/.virtualenvs')
     with cd('/usr/local/src/'):
         sudo('curl https://bootstrap.pypa.io/get-pip.py -o - | /usr/local/bin/python{}'.format(version))
     sudo('/usr/local/bin/pip{} install virtualenv virtualenvwrapper'.format(version))

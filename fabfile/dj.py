@@ -28,10 +28,10 @@ def new_do(environment, project=PROJECT_NAME, django_project=None):
     WORKON_HOME_ESC = sed_escape(WORKON_HOME)
     DJANGO_PROJECT_DIR = PROJECT_DIR + '/' + django_project
 
-    # set up virtualenv
-    sudo('mkdir -p ' + PROJECT_DIR)
-    sudo('chown {}:{} {}'.format(USER_NAME, USER_NAME, PROJECT_DIR))
-    sudo('chmod ugo+x ' + PROJECT_DIR)
+    # # set up virtualenv
+    # sudo('mkdir -p ' + PROJECT_DIR)
+    # sudo('chown {}:{} {}'.format(USER_NAME, USER_NAME, PROJECT_DIR))
+    # sudo('chmod ugo+x ' + PROJECT_DIR)
     run('mkvirtualenv -a ' + PROJECT_DIR + ' ' + project)
     run('setvirtualenvproject ' + PROJECT_DIR + ' ' + PROJECT_DIR) # set project folder same as virtualenv folder
 
@@ -113,7 +113,7 @@ def deploy_secrets(environment, project, django_project=None):
 
     with cd(DJANGO_PROJECT_DIR + '/settings'):
         # add secret key and db info
-        append(environment + '.py', "SECRET_KEY = '" + env.SECRETS['dj_secret_key'] + "'")
+        append(environment + '.py', "\nSECRET_KEY = '" + env.SECRETS['dj_secret_key'] + "'")
         append(environment + '.py', "DATABASES = {'default': {'ENGINE': '" + env.SECRETS.get('dj_db_engine', '') + "', 'NAME': '" + env.SECRETS.get('dj_db_name', '') + "', 'USER': '" + env.SECRETS.get('dj_db_user', '') + "', 'PASSWORD': '" + env.SECRETS.get('dj_db_user_password', '') + "', 'HOST': '" + env.SECRETS.get('dj_db_host', '') + "', 'PORT': '" + env.SECRETS.get('dj_db_port', '') + "'}}")
 
 @task
@@ -126,9 +126,14 @@ def deploy_project(environment, project, django_project=None):
         load_secrets()
 
     with cd(DJANGO_PROJECT_DIR):
-        run('rm -rf .[^.] .??*')
+        run('rm -rf * .[^.] .??*')
         put(django_project, PROJECT_DIR)
         run('find . -name "*.pyc" -delete')
+        run('find . -name ".DS_Store" -delete')
+
+    # templatize wsgi.py and copy to to vm
+    local("sed -e 's/<WEBAPP>/"+ project + "/g' -e 's/<PROJECT>/" + django_project + "/g' -e 's/<ENV>/" + environment + "/g' -e 's/<PROJECT_DIR>/" + PROJECT_DIR_ESC + "/g' conf/dj/template.wsgi.py > conf/dj/wsgi.py")
+    put('conf/dj/wsgi.py', DJANGO_PROJECT_DIR, use_sudo=True)
 
     execute(deploy_secrets, environment, project)
 
@@ -185,7 +190,7 @@ def collectstatic(project):
 
 @task
 def setup_sqlite_db(project):
-    sudo('mkdir /var/www/db')
+    sudo('mkdir -p /var/www/db')
     sudo('chown apache:apache /var/www/db')
     execute(syncdb, project)
     sudo('chmod 764 /var/www/db/' + project + '.db')

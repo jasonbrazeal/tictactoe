@@ -29,8 +29,8 @@ REPO_URL = 'https://github.com/jsonbrazeal/tic-tac-toe.git'
 SERVER_IP_DEV = '104.131.74.88'
 HOSTNAME_DEV = 'dev.jasonbrazeal.com'
 
-SERVER_IP_PROD = '1.2.3.4' # '107.170.105.192'
-HOSTNAME_PROD = 'example.com'  # 'tictactoe.jasonbrazeal.com'
+SERVER_IP_PROD = '107.170.246.58'
+HOSTNAME_PROD = 'web1.jasonbrazeal.com'  # 'tictactoe.jasonbrazeal.com'
 
 USER_NAME = 'jsonbrazeal'
 SSH_PORT = '4217'

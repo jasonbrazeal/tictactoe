@@ -18,7 +18,6 @@ EMAIL_HOST_PASSWORD = ''
 DEFAULT_FROM_EMAIL = ''
 SERVER_EMAIL = ''
 
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
@@ -44,11 +43,11 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = '/var/www/html/'
+STATIC_ROOT = '/var/www/tictactoe/'
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
-STATIC_URL = 'http://tictactoe.jasonbrazeal.com/static/'
+STATIC_URL = 'http://jasonbrazeal.com/static/'
 
 # Additional locations of static files
 # STATICFILES_DIRS = (
