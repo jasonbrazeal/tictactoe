@@ -5,7 +5,7 @@ SETTINGS_DIR = os.path.dirname(__file__)
 PROJECT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__),".."))
 sys.path.insert(0, os.path.join(PROJECT_DIR, "apps"))
 
-# Django settings for tic_tac_toe project.
+# Django settings for tictactoe project.
 
 SESSION_SAVE_EVERY_REQUEST = True
 
@@ -80,10 +80,10 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'tic_tac_toe.urls'
+ROOT_URLCONF = 'tictactoe.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'tic_tac_toe.wsgi.application'
+WSGI_APPLICATION = 'tictactoe.wsgi.application'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -132,4 +132,4 @@ LOGGING = {
         },
     }
 }
-INSTALLED_APPS += ('tic_tac_toe.apps.game',)
+INSTALLED_APPS += ('tictactoe.apps.game',)
