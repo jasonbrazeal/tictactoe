@@ -6,7 +6,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.http import HttpResponse
 
-from game.models import Game
+from tictactoe.apps.game.models import Game
 
 def home(request):
     '''Renders main application page. Loads prior game in progress if one exists, otherwise loads blank board.
