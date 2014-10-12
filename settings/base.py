@@ -1,11 +1,3 @@
-################################## remove ##################################
-# from secrets import SECRET_KEY
-SECRET_KEY = 'fu5x^%1)b)q@6zq+nw3&amp;p0n%aj+2&amp;v_s$x0l+8z%q#f!g1t8%&amp;'
-# db password, etc.
-################################## remove ##################################
-
-
-
 import os
 import sys
 
