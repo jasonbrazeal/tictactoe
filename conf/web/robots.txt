@@ -1,0 +1,10 @@
+# development
+User-agent: *    # directive to all bots
+Disallow: /      # to not index anything starting from root
+
+# production
+#User-agent: *   # directive to all bots
+#Disallow: /php/ # to not index anything
+#Disallow: /js/  # in the php, js, or
+#Disallow: /css/ # css folders
+#Sitemap: /sitemap.xml
