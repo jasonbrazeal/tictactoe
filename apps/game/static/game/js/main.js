@@ -212,7 +212,7 @@ var dialogContinueConfig = {
                                         window.location.reload();
                                       },
                                       'Nope': function() {
-                                        window.location = '/thanks';
+                                        window.location = '/tictactoe/thanks';
                                       }
                                     } /* buttons */
                                  }); /* dialog */
