@@ -117,7 +117,7 @@ var dialogContinueConfig = {
 // fades in board if successful
     function setupGame(postData) {
         $.ajax({
-            url: '/setup',
+            url: '/tictactoe/setup',
             type: 'POST',
             data: postData,
             dataType: 'html',
@@ -152,7 +152,7 @@ var dialogContinueConfig = {
             $('#space' + postData.space_human).text($('#player_human').text());
             $('#space' + postData.space_human).removeClass('shaded');
             $.ajax({
-                url: '/play',
+                url: '/tictactoe/play',
                 type: 'POST',
                 data: postData,
                 dataType: 'json',
@@ -274,7 +274,7 @@ var dialogContinueConfig = {
 // makes ajax call to clear django session then reloads page
    function clearSession() {
         $.ajax({
-            url: '/clear',
+            url: '/tictactoe/clear',
             type: 'POST',
             data: '',
             dataType: 'html',
