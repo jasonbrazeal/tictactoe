@@ -1,10 +1,10 @@
 # tictactoe
 
 ```bash
-* new project
+# new project
 django-admin startproject tictactoe
 
-* development
+# development
 python manage.py runserver 0.0.0.0:8000
 
 # database
