@@ -1,3 +1,13 @@
-# Django Tic-Tac-Toe
+# tictactoe
 
-I originally made this Django app as an exercise for a job application. It's pretty simple, but it was fun to build. It is now optimized for mobile and can be found at [http://jasonbrazeal.com/tictactoe]
+```bash
+* new project
+django-admin startproject tictactoe
+
+* development
+python manage.py runserver 0.0.0.0:8000
+
+# database
+python manage.py makemigrations game
+python manage.py migrate --fake-initial
+```

@@ -1,0 +1,83 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-129570695-1"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', 'UA-129570695-1');
+        </script>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        {% load staticfiles %}
+        <link rel="stylesheet" href="{% static "game/css/fonts.css" %}">
+        <link rel="stylesheet" href="{% static "game/css/main.css" %}">
+        <link rel="stylesheet" href="{% static "game/css/normalize.css" %}">
+        <link rel="stylesheet" href="{% static "game/css/jquery-ui.min.css" %}">
+        <link rel="stylesheet" href="{% static "game/css/jquery-ui.structure.min.css" %}">
+        <link rel="stylesheet" href="{% static "game/css/jquery-ui.theme.min.css" %}">
+
+        <script src="{% static "game/js/vendor/modernizr-2.8.0.min.js" %}"></script>
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <div id="wrapper">
+            <h1>tic tac toe</h1>
+            <button id="start" type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button"><span class="ui-button-text">start game</span></button>
+            <h2>by Jason Brazeal</h2>
+            <table id="board">
+                <tbody>
+                    <tr>
+                        <td id="space0">{{ board.0 }}</td>
+                        <td id="space1">{{ board.1 }}</td>
+                        <td id="space2">{{ board.2 }}</td>
+                    </tr>
+                    <tr>
+                        <td id="space3">{{ board.3 }}</td>
+                        <td id="space4">{{ board.4 }}</td>
+                        <td id="space5">{{ board.5 }}</td>
+                    </tr>
+                    <tr>
+                        <td id="space6">{{ board.6 }}</td>
+                        <td id="space7">{{ board.7 }}</td>
+                        <td id="space8">{{ board.8 }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <img src="{% static "game/img/tictac-no.jpg" %}" alt="grumpy cat" id="cat">
+        </div>
+
+        <div id="loading"></div>
+
+        <div id="dialog-confirm">
+            The winner is...<span id="winner"></span>! Play again?
+        </div>
+
+        <div id="dialog-setup">
+            You can go first...choose one:
+        </div>
+
+        <div id="dialog-continue">
+            Continue game?
+        </div>
+
+        <span id="player_human">{{ player_human }}</span>
+        <span id="has_game">{{ has_game }}</span>
+
+        <script src="{% static "game/js/vendor/jquery-1.11.1.min.js" %}"></script>
+        <script src="{% static "game/js/plugins.js" %}"></script>
+        <script src="{% static "game/js/main.js" %}"></script>
+        <script src="{% static "game/js/vendor/jquery-ui.min.js" %}"></script>
+    </body>
+</html>

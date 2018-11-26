@@ -1,0 +1,36 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-129570695-1"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', 'UA-129570695-1');
+        </script>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        {% load staticfiles %}
+        <link rel="stylesheet" href="{% static "game/css/fonts.css" %}">
+        <link rel="stylesheet" href="{% static "game/css/main.css" %}">
+        <link rel="stylesheet" href="{% static "game/css/normalize.css" %}">
+
+        <script src="{% static "game/js/vendor/modernizr-2.8.0.min.js" %}"></script>
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <div id="wrapper">
+            <h1 id="thanks">thanks for playing!</h1>
+            <h2 id="thanks2">-Jason</h2>
+        </div>
+    </body>
+</html>
